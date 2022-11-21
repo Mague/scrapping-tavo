@@ -1,0 +1,23 @@
+{
+  "name": "scrapping-tavo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mague/scrapping-tavo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mague/scrapping-tavo/issues"
+  },
+  "homepage": "https://github.com/Mague/scrapping-tavo#readme",
+  "dependencies": {
+    "puppeteer": "^19.2.2"
+  }
+}
