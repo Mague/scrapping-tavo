@@ -1,8 +1,18 @@
+const axios = require('axios');
+const ua = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
+]
+
 const scraperObject = {
-	url: 'https://www.elcorteingles.es/videojuegos/ps5/consolas/#',
+	url: 'https://www.elcorteingles.es/videojuegos/ps5/consolas/',
 	async scraper(browser){
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
+		await page.setUserAgent( ua[Math.floor(Math.random() * 5)] );
 		await page.goto(this.url);
         const ss = await page.screenshot({path: "./screenshot.png"});
         let coockieSelector = "#cookies-agree"
@@ -34,6 +44,22 @@ const scraperObject = {
             let msg="Agotado"
             if(price.length>0){
                 msg=price
+		    
+               axios.post('https://api.pushover.net/1/messages.json', {
+                    'token': 'aopr81iu8yz8whqx1ek8n5ubv5h46q',
+                    'user': 'ugqje4tarbztkzht12kffusiq59fki',
+                    'device': 'iphone',
+                    'title': 'PS5 Disponible Corte Ingles',
+                    'message': `Price: ${msg}, link: ${links[index]}`,
+                    'url': links[index],
+                    'priority': 2,
+                    'retry': 30,
+                    'expire': 3600
+                }).then( resp => {
+                    console.log(resp);
+                }).catch( error => {
+                    console.error(error)
+                });
             }
             return `Price: ${msg}, link: ${links[index]}`
         })
